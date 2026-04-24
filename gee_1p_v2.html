@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Evaluación Avanzada: Gerenciamiento Estratégico</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(145deg, #eef2f7 0%, #dce5ec 100%);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1rem;
+            color: #1a2c3e;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .header {
+            background: #0a2f3f;
+            color: white;
+            padding: 2rem 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .badge-units {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            background: #1f6e8c;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .quiz-container {
+            padding: 2rem 2rem 1rem 2rem;
+        }
+
+        .question-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+            transition: 0.1s;
+            border: 1px solid #e0edf3;
+        }
+
+        .question-header {
+            background: #f5fafd;
+            padding: 1rem 1.5rem;
+            border-radius: 1.5rem 1.5rem 0 0;
+            border-bottom: 2px solid #cde0e9;
+        }
+
+        .question-text {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #0f3b4a;
+            line-height: 1.4;
+        }
+
+        .question-unit {
+            display: inline-block;
+            background: #2c7da0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 20px;
+            margin-bottom: 0.6rem;
+            letter-spacing: 0.3px;
+        }
+
+        .options {
+            padding: 1.2rem 1.5rem 1rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #fefefe;
+            border: 1px solid #d4e2ea;
+            border-radius: 1rem;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            background: #edf5f9;
+            border-color: #7fbbd3;
+            transform: scale(0.99);
+        }
+
+        input[type="radio"] {
+            accent-color: #1f7a5a;
+            width: 1.2rem;
+            height: 1.2rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            font-size: 0.94rem;
+            line-height: 1.4;
+            color: #1f3b45;
+            font-weight: 500;
+        }
+
+        .feedback {
+            margin: 0 1.5rem 1.5rem 1.5rem;
+            padding: 0.8rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            display: none;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .feedback.correct {
+            background: #dff6f0;
+            border-left: 6px solid #1f8a6b;
+            color: #115c46;
+            display: flex;
+        }
+
+        .feedback.incorrect {
+            background: #ffe8e6;
+            border-left: 6px solid #c73e2d;
+            color: #9b2e1f;
+            display: flex;
+        }
+
+        .icon {
+            font-size: 1.3rem;
+        }
+
+        .explanation {
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            color: #2c6079;
+        }
+
+        .score-section {
+            background: #fafdfe;
+            border-top: 2px dashed #c7dfe9;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .score-box {
+            background: #0a2f3f;
+            border-radius: 2rem;
+            padding: 0.5rem 1.5rem;
+            color: white;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        button {
+            background: #2c7da0;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.8rem;
+            border-radius: 2.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background: #1b5e7a;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn {
+            background: #4b6f7c;
+        }
+
+        .reset-btn:hover {
+            background: #2e525f;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            background: #eef3f7;
+            color: #456e80;
+        }
+
+        @media (max-width: 650px) {
+            .quiz-container {
+                padding: 1rem;
+            }
+            .question-text {
+                font-size: 1rem;
+            }
+            .option-text {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📊 Gerenciamiento Estratégico</h1>
+        <p>Evaluación avanzada · 25 preguntas · Basada en el resumen completo (PDF)</p>
+        <div class="badge-units">
+            <span class="badge">📘 Introducción / Estrategia</span>
+            <span class="badge">⚙️ Proceso & FODA</span>
+            <span class="badge">⚖️ Ética & RSE</span>
+            <span class="badge">🏭 Análisis industrial</span>
+            <span class="badge">🔍 Ambiente interno</span>
+        </div>
+    </div>
+
+    <div class="quiz-container" id="quizContainer">
+        <!-- Las preguntas se generan dinámicamente -->
+    </div>
+
+    <div class="score-section" id="scoreSection">
+        <div class="score-box" id="scoreDisplay">0 / 0</div>
+        <div style="display: flex; gap: 1rem;">
+            <button id="submitBtn">✅ Corregir examen</button>
+            <button id="resetBtn" class="reset-btn">🔄 Reiniciar</button>
+        </div>
+    </div>
+    <footer>
+        📘 Basado en el resumen: Introducción, Estrategia, Modelo de proceso, Ética, RSE, Análisis industrial (7 preguntas), Análisis interno (5 preguntas), FODA, Cadena de valor, etc.
+    </footer>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // 25 PREGUNTAS EXTRAÍDAS EXCLUSIVAMENTE DEL NUEVO RESUMEN (PDF)
+    // --------------------------------------------------------------
+    const QUESTIONS = [
+        // Unidad introductoria / Estrategia
+        { unit: "Introducción / Estrategia", text: "Según el resumen, ¿cuáles son los tres grandes factores que determinan el éxito y desempeño de una compañía?",
+          options: ["Contexto industrial, contexto nacional, y recursos/capacidades/estrategias", "Misión, visión y objetivos", "Fuerzas de Porter, FODA y cadena de valor", "Planificación, implementación y control"],
+          correct: 0, explanation: "El documento señala: contexto industrial, contexto nacional, y recursos/capacidades/estrategias de la compañía." },
+        { unit: "Definiciones de estrategia", text: "De acuerdo con Mintzberg en el resumen, ¿qué implica la formulación de estrategia?",
+          options: ["La planeación rígida de cada paso operativo", "La interpretación del entorno y el desarrollo de pautas coherentes en las decisiones empresariales", "Exclusivamente el análisis financiero", "La imposición de metas desde la alta dirección sin participación"],
+          correct: 1, explanation: "Mintzberg: 'La formulación de estrategia implica la interpretación del entorno y el desarrollo de pautas coherentes en las decisiones empresariales'." },
+        { unit: "Estrategias emergentes", text: "¿Qué plantea Mintzberg sobre las estrategias emergentes?",
+          options: ["Son siempre inferiores a las planificadas", "Con frecuencia son exitosas y pueden ser más apropiadas que las estrategias intentadas", "Deben evitarse a toda costa", "Solo son útiles en industrias maduras"],
+          correct: 1, explanation: "El resumen indica: 'Las estrategias emergentes con frecuencia son exitosas y pueden ser más apropiadas que las estrategias intentadas'." },
+        // Modelo proceso administración estratégica
+        { unit: "Proceso estratégico", text: "Según el modelo del proceso de administración estratégica presentado, ¿cuál es el paso 1?",
+          options: ["Análisis del ambiente externo", "Selección de la misión y las principales metas corporativas", "Implementación de la estrategia", "Análisis FODA"],
+          correct: 1, explanation: "El orden: 1) Selección de misión y metas; 2) Análisis interno; 3) Análisis externo; 4) Selección de estrategias; 5) Implementación." },
+        { unit: "Planeación estratégica", text: "¿Qué crítica se menciona respecto a la planeación tipo 'Torre de Marfil'?",
+          options: ["Utiliza demasiados datos cuantitativos", "Es un error considerar la planeación como función exclusiva de la alta gerencia, con limitada comprensión de realidades operativas", "Se basa exclusivamente en inteligencia artificial", "Ignora por completo el análisis de costos"],
+          correct: 1, explanation: "La planeación 'Torre de Marfil' excluye a gerentes operativos y genera estrategias nocivas; debe incluir a todos los niveles." },
+        { unit: "Intento vs. Ajuste estratégico", text: "¿En qué se diferencia el 'intento estratégico' del 'ajuste estratégico'?",
+          options: ["El intento se enfoca en recursos futuros y generar nuevas capacidades; el ajuste en adecuación con recursos existentes", "Son sinónimos", "El ajuste es más riesgoso", "El intento ignora el ambiente externo"],
+          correct: 0, explanation: "Intento estratégico: planificar con recursos que tendré a futuro. Ajuste: adecuación del ambiente externo con recursos existentes." },
+        // Peligros y predisposiciones
+        { unit: "Predisposiciones del conocimiento", text: "¿En qué consiste la 'intensificación del compromiso' (escalada de compromiso)?",
+          options: ["Comprometer más recursos aunque el proyecto esté fracasando", "Evitar comprometerse con cualquier proyecto", "Cambiar de opinión rápidamente", "Delegar todas las decisiones"],
+          correct: 0, explanation: "Se da cuando se comprometen más recursos pese a retroalimentación negativa del proyecto." },
+        { unit: "Pensamiento de grupo", text: "¿Cuál es una técnica sugerida para contrarrestar el pensamiento de grupo?",
+          options: ["Mayor presión hacia la uniformidad", "El abogado del diablo o el estudio dialéctico", "Ignorar las opiniones minoritarias", "Evitar reuniones"],
+          correct: 1, explanation: "El documento menciona 'abogado del diablo' (análisis crítico) y 'estudio dialéctico' (tesis-antítesis-síntesis)." },
+        // Misión y Visión
+        { unit: "Misión", text: "Según Drucker y el resumen, la misión responde a la pregunta:",
+          options: ["¿Cómo maximizamos ganancias?", "¿Cuál es nuestro negocio?", "¿Hacia dónde vamos?", "¿Cuánto invertir?"],
+          correct: 1, explanation: "Peter Drucker: '¿Cuál es nuestro negocio?' es la base de la misión." },
+        { unit: "Visión", text: "¿Cuál de las siguientes NO es una característica de la visión estratégica según el texto?",
+          options: ["Gráfica, direccional, centrada", "Flexible y viable", "Rígida e inmutable", "Deseable y fácil de comunicar"],
+          correct: 2, explanation: "La visión debe ser gráfica, direccional, centrada, flexible, viable, deseable y fácil de comunicar. No es rígida." },
+        // Ética y moral
+        { unit: "Ética y moral", text: "Según el resumen, ¿cuál es la diferencia principal entre moral y ética?",
+          options: ["Moral es el estudio filosófico, ética son las normas sociales", "Moral es el conjunto de normas que una sociedad acepta como válidas; ética es el estudio de por qué las consideramos válidas", "Son términos idénticos", "La moral es individual, la ética es legal"],
+          correct: 1, explanation: "Moral: comportamientos y normas aceptadas. Ética: estudio de por qué son válidas y comparación." },
+        { unit: "Criterios de conducta", text: "¿En qué consiste el 'criterio axiológico' de la conducta humana?",
+          options: ["Actuar por placer", "Seguir leyes sin cuestionar", "Actuar por propios valores internamente adquiridos y convencimiento", "Presión social"],
+          correct: 2, explanation: "Criterio axiológico: valores internamente adquiridos, actuar por convencimiento, incluso contra placer o leyes." },
+        // RSE
+        { unit: "Responsabilidad Social Empresaria", text: "De acuerdo al texto, ¿cuál es una de las principales responsabilidades éticas de la empresa?",
+          options: ["Maximizar ganancias a cualquier costo", "Servir a la sociedad con productos útiles y condiciones justas", "Evitar toda regulación", "Externalizar impactos ambientales"],
+          correct: 1, explanation: "Entre las 7 responsabilidades: servir con productos útiles, crear riqueza eficiente, respetar DDHH, medio ambiente, leyes, etc." },
+        { unit: "RSE - Dimensiones", text: "¿Qué implica la 'verificabilidad' como elemento de la RSE?",
+          options: ["Que la empresa no rinda cuentas", "Que las actuaciones socialmente responsables se sometan a verificación externa", "Solo informes internos", "Ocultar información"],
+          correct: 1, explanation: "Verificabilidad: expertos independientes comprueban las actuaciones de RSE." },
+        // Análisis industrial (capítulo 3)
+        { unit: "Análisis industrial", text: "En el esquema de las 7 preguntas del análisis industrial, ¿cuál es la primera pregunta?",
+          options: ["¿Qué fuerzas impulsan el cambio?", "¿Cuáles son las principales características económicas de la industria?", "¿Es atractiva la industria?", "¿Qué movimientos harán los rivales?"],
+          correct: 1, explanation: "Pregunta 1: ¿Cuáles son las principales características económicas de la industria?" },
+        { unit: "Fuerzas impulsoras", text: "Según el resumen, ¿cuál es un ejemplo de fuerza impulsora en una industria?",
+          options: ["La publicidad en televisión", "Cambios en la tasa de crecimiento a largo plazo e innovación tecnológica", "El nombre de la empresa", "El clima organizacional"],
+          correct: 1, explanation: "Fuerzas impulsoras: crecimiento, innovación, cambios tecnológicos, globalización, preferencias, etc." },
+        { unit: "Grupos estratégicos", text: "¿Para qué sirve construir un mapa de grupos estratégicos?",
+          options: ["Para ignorar a la competencia", "Para ver las diferentes posiciones competitivas de cada competidor en una industria", "Para fijar precios iguales", "Para evitar la competencia"],
+          correct: 1, explanation: "Permite visualizar posiciones competitivas, util cuando hay muchos competidores." },
+        { unit: "Factores Clave de Éxito (FCE)", text: "¿Cuántos FCE suelen ser determinantes en una industria según el texto?",
+          options: ["Generalmente 10 o más", "Generalmente tres o cuatro, y uno o dos sobresalen", "Siempre uno solo", "Ninguno"],
+          correct: 1, explanation: "Los FCE son generalmente tres/cuatro, y uno o dos suelen tener especial importancia." },
+        { unit: "Atractivo de la industria", text: "Si una industria se considera 'poco atractiva', ¿qué tipo de estrategia se recomienda?",
+          options: ["Expansión agresiva", "Estrategias defensivas, reducir participación, salir o fusionarse", "Aumentar inversión fija", "Ignorar el análisis"],
+          correct: 1, explanation: "En industrias poco atractivas se deben considerar estrategias defensivas o de salida." },
+        // Análisis interno (capítulo 4)
+        { unit: "Análisis interno", text: "Según la pregunta 1 del análisis de la situación de la empresa, ¿cómo se evalúa si la estrategia actual funciona bien?",
+          options: ["Solo con encuestas a empleados", "Mediante indicadores: participación de mercado, márgenes, rentabilidad, crecimiento de ventas, ventajas competitivas", "Observando el precio de la acción", "Con un solo indicador financiero"],
+          correct: 1, explanation: "Se evalúa con participación de mercado, márgenes, ganancias, crecimiento de ventas, ventajas competitivas." },
+        { unit: "FODA", text: "La herramienta FODA analiza:",
+          options: ["Fortalezas, Oportunidades, Debilidades, Amenazas", "Finanzas, Operaciones, Dirección, Ambiente", "Fases, Objetivos, Decisiones, Acciones", "Fuerzas, Obstáculos, Datos, Alcances"],
+          correct: 0, explanation: "FODA: Fortalezas, Oportunidades, Debilidades, Amenazas." },
+        { unit: "Cadena de valor", text: "En la cadena de valor, las 'actividades primarias' incluyen:",
+          options: ["Infraestructura, RRHH, I+D", "Fabricación, marketing, ventas y servicios", "Solo finanzas", "Control de calidad externo"],
+          correct: 1, explanation: "Actividades primarias: creación física del producto (fabricación, marketing, ventas, servicios). Apoyo: infraestructura, RRHH, I+D." },
+        { unit: "Competitividad en costos", text: "¿Cuál de los siguientes es un origen de diferencias de costos entre competidores según el resumen?",
+          options: ["Variaciones en precios de insumos, tecnología, economías de escala y productividad", "Únicamente la mano de obra", "El color del logotipo", "La cantidad de oficinas"],
+          correct: 0, explanation: "Diferencias por insumos, tecnología, edad de equipos, eficiencia, economías de escala, logística, etc." },
+        { unit: "Posición competitiva", text: "Para determinar cuán sólida es la posición competitiva de una compañía se debe evaluar:",
+          options: ["Su fuerza actual, si mejorará o empeorará, comparación con FCE, ventaja/desventaja neta", "Solo su participación de mercado", "Exclusivamente su reputación", "La cantidad de empleados"],
+          correct: 0, explanation: "La pregunta 4 del análisis interno: fuerza actual, tendencia, clasificación frente a FCE, ventaja neta y capacidad de defensa." },
+        { unit: "Problemas estratégicos", text: "¿Qué aspectos se consideran para identificar los problemas estratégicos de una compañía?",
+          options: ["Si la estrategia actual es adecuada frente a fuerzas motrices, FCE futuros, y vulnerabilidades ante rivales", "Solo el presupuesto", "La cantidad de productos", "El nombre de los competidores"],
+          correct: 0, explanation: "Se analiza adecuación a fuerzas motrices, factores clave de éxito futuros, defensa ante 5 fuerzas, amenazas y debilidades." },
+        { unit: "Integración vertical en IT", text: "Según el resumen, ¿qué es la integración vertical 'hacia atrás' en la industria de tecnología?",
+          options: ["Empresas de software que diseñan su propio hardware", "Llegar directo al cliente final", "Externalizar toda producción", "Fusionarse con bancos"],
+          correct: 0, explanation: "Hacia atrás: empresas de software o servicios que empiezan a diseñar su propio hardware (ejemplo: Google)." }
+    ];
+
+    // Estado
+    let userAnswers = new Array(QUESTIONS.length).fill(null);
+    let submitted = false;
+
+    const quizContainer = document.getElementById("quizContainer");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function renderQuiz() {
+        if (!quizContainer) return;
+        let html = '';
+        for (let i = 0; i < QUESTIONS.length; i++) {
+            const q = QUESTIONS[i];
+            const selectedVal = userAnswers[i];
+            html += `
+                <div class="question-card" data-qidx="${i}">
+                    <div class="question-header">
+                        <span class="question-unit">${q.unit}</span>
+                        <div class="question-text">${i+1}. ${q.text}</div>
+                    </div>
+                    <div class="options" id="options-${i}">
+            `;
+            for (let optIdx = 0; optIdx < q.options.length; optIdx++) {
+                const isChecked = (selectedVal === optIdx);
+                const checkedAttr = isChecked ? 'checked' : '';
+                html += `
+                    <div class="option" data-qidx="${i}" data-optidx="${optIdx}">
+                        <input type="radio" name="q${i}" value="${optIdx}" id="q${i}_opt${optIdx}" ${checkedAttr}>
+                        <label class="option-text" for="q${i}_opt${optIdx}">${String.fromCharCode(65+optIdx)}. ${q.options[optIdx]}</label>
+                    </div>
+                `;
+            }
+            html += `</div>`; // cierre options
+            if (submitted) {
+                const isCorrect = (selectedVal === q.correct);
+                const correctLetter = String.fromCharCode(65 + q.correct);
+                const correctText = q.options[q.correct];
+                const feedbackClass = isCorrect ? 'correct' : 'incorrect';
+                const icono = isCorrect ? '✅' : '❌';
+                const message = isCorrect ? '¡Correcto!' : `Incorrecto. La respuesta correcta es ${correctLetter}: ${correctText}`;
+                html += `
+                    <div class="feedback ${feedbackClass}">
+                        <span class="icon">${icono}</span>
+                        <div>
+                            <strong>${message}</strong><br>
+                            <span class="explanation">📘 ${q.explanation}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `<div class="feedback" style="display:none;"></div>`;
+            }
+            html += `</div>`; // cierre question-card
+        }
+        quizContainer.innerHTML = html;
+
+        // Re-asignar eventos a las opciones
+        document.querySelectorAll('.option').forEach(optDiv => {
+            const qidx = parseInt(optDiv.dataset.qidx);
+            const optidx = parseInt(optDiv.dataset.optidx);
+            const radio = optDiv.querySelector(`input[type="radio"]`);
+            if (radio) {
+                optDiv.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'INPUT') {
+                        radio.checked = true;
+                        const changeEvent = new Event('change', { bubbles: true });
+                        radio.dispatchEvent(changeEvent);
+                    }
+                });
+                radio.addEventListener('change', (e) => {
+                    if (radio.checked) {
+                        userAnswers[qidx] = optidx;
+                        if (submitted) {
+                            submitted = false;
+                            renderQuiz();
+                            updateScoreDisplay(false);
+                        } else {
+                            // Sincronizar radio group
+                            const nameGroup = `q${qidx}`;
+                            document.querySelectorAll(`input[name="${nameGroup}"]`).forEach(r => {
+                                if (r !== radio) r.checked = false;
+                            });
+                        }
+                    }
+                });
+            }
+        });
+        if (!submitted) updateScoreDisplay(false);
+        else updateScoreDisplay(true);
+    }
+
+    function computeScore() {
+        let correctCount = 0;
+        for (let i = 0; i < QUESTIONS.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === QUESTIONS[i].correct) {
+                correctCount++;
+            }
+        }
+        return { correctCount, total: QUESTIONS.length };
+    }
+
+    function updateScoreDisplay(showRealScore = false) {
+        const { correctCount, total } = computeScore();
+        if (showRealScore) {
+            scoreDisplay.innerText = `${correctCount} / ${total}`;
+            scoreDisplay.style.background = '#0a2f3f';
+        } else {
+            const answered = userAnswers.filter(a => a !== null).length;
+            scoreDisplay.innerText = `${answered} / ${total} respondidas · (corrige para nota)`;
+            scoreDisplay.style.background = '#2c6079';
+        }
+    }
+
+    function submitExam() {
+        submitted = true;
+        renderQuiz();
+        const { correctCount, total } = computeScore();
+        scoreDisplay.innerText = `${correctCount} / ${total}`;
+        scoreDisplay.style.background = '#1f6e8c';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetExam() {
+        userAnswers.fill(null);
+        submitted = false;
+        renderQuiz();
+        scoreDisplay.innerText = `0 / ${QUESTIONS.length}`;
+        scoreDisplay.style.background = '#0a2f3f';
+    }
+
+    submitBtn.addEventListener("click", submitExam);
+    resetBtn.addEventListener("click", resetExam);
+
+    renderQuiz();
+</script>
+</body>
+</html>
