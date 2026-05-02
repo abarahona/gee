@@ -269,6 +269,17 @@
 <div id="result20"></div>
 </div>
 
+<div class="question">
+<p><b>21. ¿Cuál es el orden correcto de las primeras etapas del proceso de simulación?</b></p>
+
+<label><input type="radio" name="q21" value="1"> Formulación del modelo → Definición del problema → Adquisición de datos</label><br>
+<label><input type="radio" name="q21" value="2"> Definición del problema → Formulación y construcción del modelo → Adquisición y preparación de datos</label><br>
+<label><input type="radio" name="q21" value="3"> Validación → Experimentación → Definición del problema</label><br>
+<label><input type="radio" name="q21" value="4"> Adquisición de datos → Documentación → Traslación del modelo</label><br>
+
+<div id="result21"></div>
+</div>
+
 <button type="button" onclick="corregir()">Corregir</button>
 
 </form>
@@ -439,7 +450,15 @@ function corregir() {
         document.getElementById("result20").innerHTML = "✘ Incorrecto";
     }
 
-    alert("Resultado: " + correctas + " / 20");
+    let q21 = document.querySelector('input[name="q21"]:checked');
+    if(q21 && q21.value === "2") {
+        document.getElementById("result21").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result21").innerHTML = "✘ Incorrecto";
+    }
+
+    alert("Resultado: " + correctas + " / 21");
 }
 
 function getChecked(name) {
