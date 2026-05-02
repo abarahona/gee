@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Simulador Parcial - Tema Evaluativo</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        padding: 20px;
+    }
+    .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+        text-align: center;
+    }
+    .question {
+        margin-bottom: 25px;
+    }
+    .correct {
+        color: green;
+        font-weight: bold;
+    }
+    .incorrect {
+        color: red;
+        font-weight: bold;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Simulador Parcial - Tema Evaluativo</h1>
+
+<form id="quizForm">
+
+<div class="question">
+<p><b>1. Según la definición de simulación, ¿cuál de las siguientes afirmaciones es correcta?</b></p>
+
+<label><input type="radio" name="q1" value="1"> Es únicamente una técnica matemática para predecir el futuro</label><br>
+<label><input type="checkbox" name="q1" value="2"> Es el proceso de construir un programa que describa el comportamiento del sistema de interés</label><br>
+<label><input type="checkbox" name="q1" value="3"> Es experimentar con un modelo para llegar a conclusiones que apoyen la toma de decisiones</label><br>
+<label><input type="checkbox" name="q1" value="4"> Es fingir, llegando a la esencia de algo prescindiendo de la realidad</label><br>
+
+<div id="result1"></div>
+</div>
+
+<div class="question">
+<p><b>2. Marque los objetivos de la simulación:</b></p>
+
+<label><input type="checkbox" name="q2" value="1"> Describir el comportamiento de sistemas</label><br>
+<label><input type="checkbox" name="q2" value="2"> Postular teorías o hipótesis que expliquen el comportamiento observado</label><br>
+<label><input type="checkbox" name="q2" value="3"> Reemplazar completamente el análisis detallado</label><br>
+<label><input type="checkbox" name="q2" value="4"> Predecir un comportamiento futuro mediante cambios en el sistema</label><br>
+
+<div id="result2"></div>
+</div>
+
+<div class="question">
+<p><b>3. Marque las VENTAJAS de la simulación:</b></p>
+
+<label><input type="checkbox" name="q3" value="1"> Permite estimar medidas de desempeño bajo diferentes escenarios</label><br>
+<label><input type="checkbox" name="q3" value="2"> Es útil cuando no hay una formulación matemática</label><br>
+<label><input type="checkbox" name="q3" value="3"> Sirve para encontrar soluciones óptimas directamente</label><br>
+<label><input type="checkbox" name="q3" value="4"> Otorga control sobre condiciones experimentales</label><br>
+<label><input type="checkbox" name="q3" value="5"> Ayuda a estudiar sistemas inexistentes</label><br>
+
+<div id="result3"></div>
+</div>
+
+<div class="question">
+<p><b>4. Marque las DESVENTAJAS de la simulación:</b></p>
+
+<label><input type="checkbox" name="q4" value="1"> Costos económicos y en tiempo</label><br>
+<label><input type="checkbox" name="q4" value="2"> Puede aparentar reflejar con precisión un sistema real cuando no lo hace</label><br>
+<label><input type="checkbox" name="q4" value="3"> No podemos medir el grado de imprecisión</label><br>
+<label><input type="checkbox" name="q4" value="4"> No sirven para encontrar soluciones óptimas</label><br>
+
+<div id="result4"></div>
+</div>
+
+<div class="question">
+<p><b>5. Marque los peligros de la simulación:</b></p>
+
+<label><input type="checkbox" name="q5" value="1"> Inferir resultados con una sola corrida, asumiendo independencia</label><br>
+<label><input type="checkbox" name="q5" value="2"> Uso arbitrario de distribuciones y suposiciones</label><br>
+<label><input type="checkbox" name="q5" value="3"> Excesiva confianza en los resultados</label><br>
+<label><input type="checkbox" name="q5" value="4"> Basar las decisiones en el promedio cuando los resultados son cíclicos</label><br>
+
+<div id="result5"></div>
+</div>
+
+<div class="question">
+<p><b>6. ¿Qué caracteriza a un sistema terminante?</b></p>
+
+<label><input type="checkbox" name="q6" value="1"> Por lo general no alcanzan un estado estable</label><br>
+<label><input type="checkbox" name="q6" value="2"> Hay un evento natural que determina el fin de la simulación</label><br>
+<label><input type="checkbox" name="q6" value="3"> Suelen alcanzar un estado estable o de régimen</label><br>
+<label><input type="checkbox" name="q6" value="4"> Su vida se prolonga indefinidamente en el tiempo</label><br>
+
+<div id="result6"></div>
+</div>
+
+<div class="question">
+<p><b>7. ¿Cuál de los siguientes es un ejemplo de sistema NO terminante?</b></p>
+
+<label><input type="radio" name="q7" value="1"> Oficina con horarios de apertura y cierre</label><br>
+<label><input type="radio" name="q7" value="2"> Central telefónica</label><br>
+<label><input type="radio" name="q7" value="3"> Confrontación militar que termina cuando un bando pierde</label><br>
+<label><input type="radio" name="q7" value="4"> Empresa que fabrica una cantidad X de artículos</label><br>
+
+<div id="result7"></div>
+</div>
+
+<div class="question">
+<p><b>8. Sobre el "Estado Transitorio" o "Warm-Up", marque lo correcto:</b></p>
+
+<label><input type="checkbox" name="q8" value="1"> La mayor dificultad es definir cuándo termina</label><br>
+<label><input type="checkbox" name="q8" value="2"> Corridas prolongadas es un método de supresión</label><br>
+<label><input type="checkbox" name="q8" value="3"> El truncamiento es un método de supresión</label><br>
+<label><input type="checkbox" name="q8" value="4"> Inicialización adecuada es un método de supresión</label><br>
+
+<div id="result8"></div>
+</div>
+
+<div class="question">
+<p><b>9. Marque las VENTAJAS de los Lenguajes de Propósito General:</b></p>
+
+<label><input type="checkbox" name="q9" value="1"> No hay restricciones para el formato de salida</label><br>
+<label><input type="checkbox" name="q9" value="2"> A menudo se conoce muy bien el lenguaje</label><br>
+<label><input type="checkbox" name="q9" value="3"> Menor costo del software</label><br>
+<label><input type="checkbox" name="q9" value="4"> Genera automáticamente ciertos datos necesarios</label><br>
+
+<div id="result9"></div>
+</div>
+
+<div class="question">
+<p><b>10. Marque las DESVENTAJAS de los Lenguajes de Propósito General:</b></p>
+
+<label><input type="checkbox" name="q10" value="1"> Tiempo de programación más largo</label><br>
+<label><input type="checkbox" name="q10" value="2"> Debemos crear las rutinas de detección de errores</label><br>
+<label><input type="checkbox" name="q10" value="3"> El costo total del proyecto puede ser mayor</label><br>
+<label><input type="checkbox" name="q10" value="4"> Debe apegarse a los formatos de salida del lenguaje</label><br>
+
+<div id="result10"></div>
+</div>
+
+<div class="question">
+<p><b>11. Marque las VENTAJAS de los Lenguajes de Simulación:</b></p>
+
+<label><input type="checkbox" name="q11" value="1"> Provee la mayoría de las funcionalidades necesarias para construir un modelo</label><br>
+<label><input type="checkbox" name="q11" value="2"> Genera automáticamente ciertos datos necesarios</label><br>
+<label><input type="checkbox" name="q11" value="3"> Facilita recopilación y despliegue de los datos producidos</label><br>
+<label><input type="checkbox" name="q11" value="4"> Controla administración y asignación del almacenamiento durante la corrida</label><br>
+
+<div id="result11"></div>
+</div>
+
+<div class="question">
+<p><b>12. Marque las DESVENTAJAS de los Lenguajes de Simulación:</b></p>
+
+<label><input type="checkbox" name="q12" value="1"> Debe apegarse a los formatos de salida del lenguaje</label><br>
+<label><input type="checkbox" name="q12" value="2"> Flexibilidad reducida</label><br>
+<label><input type="checkbox" name="q12" value="3"> Tiempo de ejecución incrementado</label><br>
+<label><input type="checkbox" name="q12" value="4"> Tiempo de programación más largo</label><br>
+
+<div id="result12"></div>
+</div>
+
+<div class="question">
+<p><b>13. ¿Cuáles son los tres puntos clave que hay que validar en un modelo?</b></p>
+
+<label><input type="checkbox" name="q13" value="1"> Supuestos</label><br>
+<label><input type="checkbox" name="q13" value="2"> Valores de entrada y distribuciones</label><br>
+<label><input type="checkbox" name="q13" value="3"> Valores de salida y conclusiones</label><br>
+<label><input type="checkbox" name="q13" value="4"> Costos del proyecto</label><br>
+
+<div id="result13"></div>
+</div>
+
+<div class="question">
+<p><b>14. Marque las técnicas de validación del modelo:</b></p>
+
+<label><input type="checkbox" name="q14" value="1"> Intuición de experto</label><br>
+<label><input type="checkbox" name="q14" value="2"> Mediciones en el sistema real</label><br>
+<label><input type="checkbox" name="q14" value="3"> Resultados teóricos</label><br>
+<label><input type="checkbox" name="q14" value="4"> Análisis de sensibilidad</label><br>
+
+<div id="result14"></div>
+</div>
+
+<div class="question">
+<p><b>15. ¿Cuáles son las diferencias entre lenguajes de propósito general y lenguajes de simulación?</b></p>
+
+<label><input type="checkbox" name="q15" value="1"> Organización del tiempo y las actividades</label><br>
+<label><input type="checkbox" name="q15" value="2"> Definición y estructuración de las entidades del modelo</label><br>
+<label><input type="checkbox" name="q15" value="3"> Tipos de pruebas estadísticas posibles sobre los elementos</label><br>
+<label><input type="checkbox" name="q15" value="4"> Facilidad para cambiar la estructura del modelo</label><br>
+
+<div id="result15"></div>
+</div>
+
+<div class="question">
+<p><b>16. Sobre el intervalo de confianza, marque lo correcto:</b></p>
+
+<label><input type="checkbox" name="q16" value="1"> Para muestra pequeña (N < 30) se asume distribución Normal</label><br>
+<label><input type="checkbox" name="q16" value="2"> Para muestra grande (N >= 30) se utiliza otro enfoque</label><br>
+<label><input type="checkbox" name="q16" value="3"> Si no se conoce la desviación estándar, se estima con s</label><br>
+<label><input type="checkbox" name="q16" value="4"> Simular permite obtener estimaciones pero debemos evaluar su exactitud</label><br>
+
+<div id="result16"></div>
+</div>
+
+<div class="question">
+<p><b>17. Para calcular el tamaño de la muestra con variable Normal y desviación estándar conocida, ¿qué se necesita?</b></p>
+
+<label><input type="radio" name="q17" value="1"> Solo la media de la población</label><br>
+<label><input type="radio" name="q17" value="2"> La desviación estándar, el nivel de confianza y el rango deseado</label><br>
+<label><input type="radio" name="q17" value="3"> Solo el tamaño de la corrida inicial</label><br>
+<label><input type="radio" name="q17" value="4"> El intervalo de salida únicamente</label><br>
+
+<div id="result17"></div>
+</div>
+
+<div class="question">
+<p><b>18. Marque las etapas del proceso de simulación:</b></p>
+
+<label><input type="checkbox" name="q18" value="1"> Definición del problema</label><br>
+<label><input type="checkbox" name="q18" value="2"> Formulación y construcción del modelo</label><br>
+<label><input type="checkbox" name="q18" value="3"> Validación</label><br>
+<label><input type="checkbox" name="q18" value="4"> Experimentación</label><br>
+<label><input type="checkbox" name="q18" value="5"> Documentación</label><br>
+
+<div id="result18"></div>
+</div>
+
+<div class="question">
+<p><b>19. Cuando se desconoce el tipo de distribución o no se supone Normal para calcular el tamaño de la muestra:</b></p>
+
+<label><input type="radio" name="q19" value="1"> Se usa la misma fórmula que para variable normal con desviación conocida</label><br>
+<label><input type="radio" name="q19" value="2"> Se utiliza una fórmula que no asume normalidad</label><br>
+<label><input type="radio" name="q19" value="3"> No es posible calcular el tamaño de la muestra</label><br>
+
+<div id="result19"></div>
+</div>
+
+<div class="question">
+<p><b>20. Los sistemas no terminantes al inicio presentan:</b></p>
+
+<label><input type="radio" name="q20" value="1"> Un estado estable inmediato</label><br>
+<label><input type="radio" name="q20" value="2"> Un estado transitorio (Warm-Up)</label><br>
+<label><input type="radio" name="q20" value="3"> Un evento natural que determina el fin</label><br>
+
+<div id="result20"></div>
+</div>
+
+<button type="button" onclick="corregir()">Corregir</button>
+
+</form>
+</div>
+
+<script>
+function corregir() {
+
+    let correctas = 0;
+
+    let q1 = getChecked("q1");
+    if(compare(q1, ["2","3","4"])) {
+        document.getElementById("result1").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result1").innerHTML = "✘ Incorrecto";
+    }
+
+    let q2 = getChecked("q2");
+    if(compare(q2, ["1","2","4"])) {
+        document.getElementById("result2").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result2").innerHTML = "✘ Incorrecto";
+    }
+
+    let q3 = getChecked("q3");
+    if(compare(q3, ["1","2","4","5"])) {
+        document.getElementById("result3").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result3").innerHTML = "✘ Incorrecto";
+    }
+
+    let q4 = getChecked("q4");
+    if(compare(q4, ["1","2","3","4"])) {
+        document.getElementById("result4").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result4").innerHTML = "✘ Incorrecto";
+    }
+
+    let q5 = getChecked("q5");
+    if(compare(q5, ["1","2","3","4"])) {
+        document.getElementById("result5").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result5").innerHTML = "✘ Incorrecto";
+    }
+
+    let q6 = getChecked("q6");
+    if(compare(q6, ["1","2"])) {
+        document.getElementById("result6").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result6").innerHTML = "✘ Incorrecto";
+    }
+
+    let q7 = document.querySelector('input[name="q7"]:checked');
+    if(q7 && q7.value === "2") {
+        document.getElementById("result7").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result7").innerHTML = "✘ Incorrecto";
+    }
+
+    let q8 = getChecked("q8");
+    if(compare(q8, ["1","2","3","4"])) {
+        document.getElementById("result8").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result8").innerHTML = "✘ Incorrecto";
+    }
+
+    let q9 = getChecked("q9");
+    if(compare(q9, ["1","2","3"])) {
+        document.getElementById("result9").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result9").innerHTML = "✘ Incorrecto";
+    }
+
+    let q10 = getChecked("q10");
+    if(compare(q10, ["1","2","3"])) {
+        document.getElementById("result10").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result10").innerHTML = "✘ Incorrecto";
+    }
+
+    let q11 = getChecked("q11");
+    if(compare(q11, ["1","2","3","4"])) {
+        document.getElementById("result11").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result11").innerHTML = "✘ Incorrecto";
+    }
+
+    let q12 = getChecked("q12");
+    if(compare(q12, ["1","2","3"])) {
+        document.getElementById("result12").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result12").innerHTML = "✘ Incorrecto";
+    }
+
+    let q13 = getChecked("q13");
+    if(compare(q13, ["1","2","3"])) {
+        document.getElementById("result13").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result13").innerHTML = "✘ Incorrecto";
+    }
+
+    let q14 = getChecked("q14");
+    if(compare(q14, ["1","2","3","4"])) {
+        document.getElementById("result14").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result14").innerHTML = "✘ Incorrecto";
+    }
+
+    let q15 = getChecked("q15");
+    if(compare(q15, ["1","2","3","4"])) {
+        document.getElementById("result15").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result15").innerHTML = "✘ Incorrecto";
+    }
+
+    let q16 = getChecked("q16");
+    if(compare(q16, ["1","2","3","4"])) {
+        document.getElementById("result16").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result16").innerHTML = "✘ Incorrecto";
+    }
+
+    let q17 = document.querySelector('input[name="q17"]:checked');
+    if(q17 && q17.value === "2") {
+        document.getElementById("result17").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result17").innerHTML = "✘ Incorrecto";
+    }
+
+    let q18 = getChecked("q18");
+    if(compare(q18, ["1","2","3","4","5"])) {
+        document.getElementById("result18").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result18").innerHTML = "✘ Incorrecto";
+    }
+
+    let q19 = document.querySelector('input[name="q19"]:checked');
+    if(q19 && q19.value === "2") {
+        document.getElementById("result19").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result19").innerHTML = "✘ Incorrecto";
+    }
+
+    let q20 = document.querySelector('input[name="q20"]:checked');
+    if(q20 && q20.value === "2") {
+        document.getElementById("result20").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result20").innerHTML = "✘ Incorrecto";
+    }
+
+    alert("Resultado: " + correctas + " / 20");
+}
+
+function getChecked(name) {
+    return Array.from(document.querySelectorAll(`input[name=${name}]:checked`)).map(e => e.value);
+}
+
+function compare(a, b) {
+    return a.length === b.length && a.every(v => b.includes(v));
+}
+</script>
+
+</body>
+</html>
