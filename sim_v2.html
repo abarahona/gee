@@ -40,6 +40,26 @@
         border-radius: 5px;
         cursor: pointer;
     }
+    #sortable {
+        list-style: none;
+        padding: 0;
+    }
+    .sort-item {
+        padding: 10px 15px;
+        margin: 5px 0;
+        background: #e9ecef;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: grab;
+        user-select: none;
+    }
+    .sort-item:active {
+        cursor: grabbing;
+        background: #dee2e6;
+    }
+    .sort-item.over {
+        border-top: 3px solid #007bff;
+    }
 </style>
 </head>
 <body>
@@ -270,12 +290,20 @@
 </div>
 
 <div class="question">
-<p><b>21. ¿Cuál es el orden correcto de las primeras etapas del proceso de simulación?</b></p>
+<p><b>21. Ordene correctamente las etapas del proceso de simulación (arrastrando las opciones):</b></p>
 
-<label><input type="radio" name="q21" value="1"> Formulación del modelo → Definición del problema → Adquisición de datos</label><br>
-<label><input type="radio" name="q21" value="2"> Definición del problema → Formulación y construcción del modelo → Adquisición y preparación de datos</label><br>
-<label><input type="radio" name="q21" value="3"> Validación → Experimentación → Definición del problema</label><br>
-<label><input type="radio" name="q21" value="4"> Adquisición de datos → Documentación → Traslación del modelo</label><br>
+<div id="sortable">
+<div class="sort-item" draggable="true" data-value="1">Formulación - Construcción del Modelo</div>
+<div class="sort-item" draggable="true" data-value="2">Validación</div>
+<div class="sort-item" draggable="true" data-value="3">Definición del problema</div>
+<div class="sort-item" draggable="true" data-value="4">Experimentación</div>
+<div class="sort-item" draggable="true" data-value="5">Adquisición y preparación de datos</div>
+<div class="sort-item" draggable="true" data-value="6">Traslación - Programación del Modelo</div>
+<div class="sort-item" draggable="true" data-value="7">Documentación</div>
+<div class="sort-item" draggable="true" data-value="8">Implantación</div>
+<div class="sort-item" draggable="true" data-value="9">Planeación táctica y estratégica</div>
+<div class="sort-item" draggable="true" data-value="10">Interpretación y análisis de resultados</div>
+</div>
 
 <div id="result21"></div>
 </div>
@@ -450,12 +478,13 @@ function corregir() {
         document.getElementById("result20").innerHTML = "✘ Incorrecto";
     }
 
-    let q21 = document.querySelector('input[name="q21"]:checked');
-    if(q21 && q21.value === "2") {
+    let q21Values = Array.from(document.querySelectorAll('#sortable .sort-item')).map(el => el.getAttribute('data-value'));
+    let correctOrder = ["3","1","5","6","2","9","4","10","8","7"];
+    if(JSON.stringify(q21Values) === JSON.stringify(correctOrder)) {
         document.getElementById("result21").innerHTML = "✔ Correcto";
         correctas++;
     } else {
-        document.getElementById("result21").innerHTML = "✘ Incorrecto";
+        document.getElementById("result21").innerHTML = "✘ Incorrecto. Orden correcto: Definición del problema → Formulación → Adquisición de datos → Traslación → Validación → Planeación → Experimentación → Interpretación → Implantación → Documentación";
     }
 
     alert("Resultado: " + correctas + " / 21");
@@ -468,6 +497,49 @@ function getChecked(name) {
 function compare(a, b) {
     return a.length === b.length && a.every(v => b.includes(v));
 }
+
+let dragItem = null;
+
+document.querySelectorAll('.sort-item').forEach(item => {
+    item.addEventListener('dragstart', function() {
+        dragItem = this;
+        setTimeout(() => this.style.opacity = '0.5', 0);
+    });
+
+    item.addEventListener('dragend', function() {
+        this.style.opacity = '1';
+        dragItem = null;
+        document.querySelectorAll('.sort-item').forEach(i => i.classList.remove('over'));
+    });
+
+    item.addEventListener('dragover', function(e) {
+        e.preventDefault();
+    });
+
+    item.addEventListener('dragenter', function(e) {
+        e.preventDefault();
+        this.classList.add('over');
+    });
+
+    item.addEventListener('dragleave', function() {
+        this.classList.remove('over');
+    });
+
+    item.addEventListener('drop', function() {
+        this.classList.remove('over');
+        if (dragItem && dragItem !== this) {
+            let parent = this.parentNode;
+            let items = Array.from(parent.children);
+            let dragIdx = items.indexOf(dragItem);
+            let dropIdx = items.indexOf(this);
+            if (dragIdx < dropIdx) {
+                parent.insertBefore(dragItem, this.nextSibling);
+            } else {
+                parent.insertBefore(dragItem, this);
+            }
+        }
+    });
+});
 </script>
 
 </body>
