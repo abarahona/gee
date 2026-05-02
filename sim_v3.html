@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Simulador Parcial - Resumen Simulación</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        padding: 20px;
+    }
+    .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+        text-align: center;
+    }
+    .question {
+        margin-bottom: 25px;
+    }
+    .correct {
+        color: green;
+        font-weight: bold;
+    }
+    .incorrect {
+        color: red;
+        font-weight: bold;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    #sortable {
+        list-style: none;
+        padding: 0;
+    }
+    .sort-item {
+        padding: 10px 15px;
+        margin: 5px 0;
+        background: #e9ecef;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: grab;
+        user-select: none;
+    }
+    .sort-item:active {
+        cursor: grabbing;
+        background: #dee2e6;
+    }
+    .sort-item.over {
+        border-top: 3px solid #007bff;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Simulador Parcial - Resumen Simulación</h1>
+
+<form id="quizForm">
+
+<div class="question">
+<p><b>1. Marque las afirmaciones correctas sobre la simulación:</b></p>
+
+<label><input type="checkbox" name="q1" value="1"> Simular = imitar la realidad con un modelo</label><br>
+<label><input type="checkbox" name="q1" value="2"> Se trabaja directamente con el sistema real para mayor precisión</label><br>
+<label><input type="checkbox" name="q1" value="3"> Permite probar escenarios sin arriesgar recursos reales</label><br>
+<label><input type="checkbox" name="q1" value="4"> Se crea un modelo en computadora para experimentar</label><br>
+
+<div id="result1"></div>
+</div>
+
+<div class="question">
+<p><b>2. Marque los objetivos de la simulación:</b></p>
+
+<label><input type="checkbox" name="q2" value="1"> Entender cómo funciona un sistema</label><br>
+<label><input type="checkbox" name="q2" value="2"> Probar hipótesis</label><br>
+<label><input type="checkbox" name="q2" value="3"> Predecir qué pasa si se cambia algo</label><br>
+<label><input type="checkbox" name="q2" value="4"> Garantizar soluciones óptimas</label><br>
+
+<div id="result2"></div>
+</div>
+
+<div class="question">
+<p><b>3. Marque las características de los sistemas estocásticos:</b></p>
+
+<label><input type="checkbox" name="q3" value="1"> Incluyen aleatoriedad</label><br>
+<label><input type="checkbox" name="q3" value="2"> La simulación trabaja casi siempre con este tipo de sistemas</label><br>
+<label><input type="checkbox" name="q3" value="3"> No tienen azar</label><br>
+<label><input type="checkbox" name="q3" value="4"> Un ejemplo es la llegada de clientes</label><br>
+
+<div id="result3"></div>
+</div>
+
+<div class="question">
+<p><b>4. ¿Cuál es la diferencia principal entre un sistema terminante y uno no terminante?</b></p>
+
+<label><input type="checkbox" name="q4" value="1"> El terminante tiene un fin natural</label><br>
+<label><input type="checkbox" name="q4" value="2"> El no terminante funciona indefinidamente</label><br>
+<label><input type="checkbox" name="q4" value="3"> El terminante alcanza siempre un estado estable</label><br>
+<label><input type="checkbox" name="q4" value="4"> El no terminante presenta un Warm-Up y luego estado estable</label><br>
+
+<div id="result4"></div>
+</div>
+
+<div class="question">
+<p><b>5. Marque los tipos de modelos de simulación:</b></p>
+
+<label><input type="checkbox" name="q5" value="1"> Discretos: cambian por eventos</label><br>
+<label><input type="checkbox" name="q5" value="2"> Continuos: cambian todo el tiempo</label><br>
+<label><input type="checkbox" name="q5" value="3"> Estáticos: no varían nunca</label><br>
+<label><input type="checkbox" name="q5" value="4"> Los discretos son los más usados en simulación</label><br>
+
+<div id="result5"></div>
+</div>
+
+<div class="question">
+<p><b>6. Sobre los modelos de Caja blanca, negra y gris, marque lo correcto:</b></p>
+
+<label><input type="checkbox" name="q6" value="1"> Caja negra: no se sabe cómo funciona internamente</label><br>
+<label><input type="checkbox" name="q6" value="2"> Caja blanca: se conoce todo el funcionamiento interno</label><br>
+<label><input type="checkbox" name="q6" value="3"> Caja gris: es un intermedio</label><br>
+<label><input type="checkbox" name="q6" value="4"> En simulación se trabaja frecuentemente con caja negra</label><br>
+
+<div id="result6"></div>
+</div>
+
+<div class="question">
+<p><b>7. Marque las VENTAJAS de la simulación:</b></p>
+
+<label><input type="checkbox" name="q7" value="1"> Se pueden probar diferentes escenarios</label><br>
+<label><input type="checkbox" name="q7" value="2"> Sirve cuando no hay fórmula matemática disponible</label><br>
+<label><input type="checkbox" name="q7" value="3"> Permite controlar variables</label><br>
+<label><input type="checkbox" name="q7" value="4"> Se pueden simular sistemas inexistentes</label><br>
+<label><input type="checkbox" name="q7" value="5"> Se pueden repetir experimentos</label><br>
+
+<div id="result7"></div>
+</div>
+
+<div class="question">
+<p><b>8. Marque las DESVENTAJAS de la simulación:</b></p>
+
+<label><input type="checkbox" name="q8" value="1"> Puede ser costosa en tiempo y dinero</label><br>
+<label><input type="checkbox" name="q8" value="2"> Puede parecer correcta sin serlo</label><br>
+<label><input type="checkbox" name="q8" value="3"> No da soluciones óptimas</label><br>
+<label><input type="checkbox" name="q8" value="4"> No mide bien el error</label><br>
+
+<div id="result8"></div>
+</div>
+
+<div class="question">
+<p><b>9. ¿Cuál es la idea clave sobre lo que la simulación puede y no puede hacer?</b></p>
+
+<label><input type="radio" name="q9" value="1"> Optimiza y encuentra la mejor solución</label><br>
+<label><input type="radio" name="q9" value="2"> Aproxima y evalúa, pero no optimiza</label><br>
+<label><input type="radio" name="q9" value="3"> Garantiza resultados exactos</label><br>
+
+<div id="result9"></div>
+</div>
+
+<div class="question">
+<p><b>10. Marque los peligros de la simulación:</b></p>
+
+<label><input type="checkbox" name="q10" value="1"> Usar una sola corrida</label><br>
+<label><input type="checkbox" name="q10" value="2"> Confiar demasiado en los resultados</label><br>
+<label><input type="checkbox" name="q10" value="3"> Usar distribuciones sin criterio</label><br>
+<label><input type="checkbox" name="q10" value="4"> Mirar promedios y no variabilidad</label><br>
+
+<div id="result10"></div>
+</div>
+
+<div class="question">
+<p><b>11. ¿Qué es el Warm-Up en un sistema no terminante?</b></p>
+
+<label><input type="checkbox" name="q11" value="1"> Es el estado transitorio inicial donde los datos no representan la realidad</label><br>
+<label><input type="checkbox" name="q11" value="2"> Se soluciona ignorando los datos iniciales</label><br>
+<label><input type="checkbox" name="q11" value="3"> Corridas largas ayudan a superarlo</label><br>
+<label><input type="checkbox" name="q11" value="4"> Es el estado estable final del sistema</label><br>
+
+<div id="result11"></div>
+</div>
+
+<div class="question">
+<p><b>12. Marque las diferencias entre lenguajes de simulación y lenguajes generales:</b></p>
+
+<label><input type="checkbox" name="q12" value="1"> Los lenguajes generales son flexibles pero hay que programar todo</label><br>
+<label><input type="checkbox" name="q12" value="2"> Los lenguajes generales son más baratos</label><br>
+<label><input type="checkbox" name="q12" value="3"> Los lenguajes de simulación ya traen herramientas para eventos y colas</label><br>
+<label><input type="checkbox" name="q12" value="4"> Los lenguajes de simulación son menos flexibles</label><br>
+
+<div id="result12"></div>
+</div>
+
+<div class="question">
+<p><b>13. Ordene correctamente las etapas del proceso de simulación (arrastrando las opciones):</b></p>
+
+<div id="sortable">
+<div class="sort-item" draggable="true" data-value="1">Programar</div>
+<div class="sort-item" draggable="true" data-value="2">Analizar resultados</div>
+<div class="sort-item" draggable="true" data-value="3">Definir problema</div>
+<div class="sort-item" draggable="true" data-value="4">Experimentar</div>
+<div class="sort-item" draggable="true" data-value="5">Obtener datos</div>
+<div class="sort-item" draggable="true" data-value="6">Validar</div>
+<div class="sort-item" draggable="true" data-value="7">Construir modelo</div>
+</div>
+
+<div id="result13"></div>
+</div>
+
+<div class="question">
+<p><b>14. ¿Qué elementos se deben validar en un modelo de simulación?</b></p>
+
+<label><input type="checkbox" name="q14" value="1"> Supuestos</label><br>
+<label><input type="checkbox" name="q14" value="2"> Entradas</label><br>
+<label><input type="checkbox" name="q14" value="3"> Salidas</label><br>
+<label><input type="checkbox" name="q14" value="4"> Costos del proyecto</label><br>
+
+<div id="result14"></div>
+</div>
+
+<div class="question">
+<p><b>15. Marque las técnicas de validación:</b></p>
+
+<label><input type="checkbox" name="q15" value="1"> Intuición de experto</label><br>
+<label><input type="checkbox" name="q15" value="2"> Mediciones reales</label><br>
+<label><input type="checkbox" name="q15" value="3"> Resultados teóricos</label><br>
+<label><input type="checkbox" name="q15" value="4"> Sensibilidad</label><br>
+
+<div id="result15"></div>
+</div>
+
+<div class="question">
+<p><b>16. Sobre el intervalo de confianza en simulación:</b></p>
+
+<label><input type="checkbox" name="q16" value="1"> La simulación da estimaciones con error</label><br>
+<label><input type="checkbox" name="q16" value="2"> Se calcula un intervalo de confianza para expresar la exactitud</label><br>
+<label><input type="checkbox" name="q16" value="3"> Ejemplo: resultado entre X e Y con 95% de confianza</label><br>
+<label><input type="checkbox" name="q16" value="4"> La simulación da valores exactos sin margen de error</label><br>
+
+<div id="result16"></div>
+</div>
+
+<div class="question">
+<p><b>17. Sobre el tamaño de muestra en simulación:</b></p>
+
+<label><input type="checkbox" name="q17" value="1"> Depende del error permitido</label><br>
+<label><input type="checkbox" name="q17" value="2"> Depende del nivel de confianza</label><br>
+<label><input type="checkbox" name="q17" value="3"> Depende de la variabilidad</label><br>
+<label><input type="checkbox" name="q17" value="4"> Más precisión requiere más simulaciones</label><br>
+
+<div id="result17"></div>
+</div>
+
+<div class="question">
+<p><b>18. ¿Cuál es la diferencia entre estudiar un sistema real vs un modelo?</b></p>
+
+<label><input type="checkbox" name="q18" value="1"> El sistema real es preciso pero puede ser caro, lento o riesgoso</label><br>
+<label><input type="checkbox" name="q18" value="2"> El modelo es barato y flexible</label><br>
+<label><input type="checkbox" name="q18" value="3"> Con el modelo se pueden probar escenarios</label><br>
+<label><input type="checkbox" name="q18" value="4"> El modelo siempre es más preciso que el sistema real</label><br>
+
+<div id="result18"></div>
+</div>
+
+<div class="question">
+<p><b>19. Un sistema determinístico se caracteriza por:</b></p>
+
+<label><input type="radio" name="q19" value="1"> Tener azar en sus resultados</label><br>
+<label><input type="radio" name="q19" value="2"> No tener azar (ej: física pura)</label><br>
+<label><input type="radio" name="q19" value="3"> Ser inestable siempre</label><br>
+
+<div id="result19"></div>
+</div>
+
+<div class="question">
+<p><b>20. Un ejemplo de sistema terminante es:</b></p>
+
+<label><input type="radio" name="q20" value="1"> Una red de internet</label><br>
+<label><input type="radio" name="q20" value="2"> Un supermercado que cierra a una hora</label><br>
+<label><input type="radio" name="q20" value="3"> Una central telefónica</label><br>
+
+<div id="result20"></div>
+</div>
+
+<div class="question">
+<p><b>21. Un ejemplo de modelo discreto es:</b></p>
+
+<label><input type="radio" name="q21" value="1"> La temperatura que cambia continuamente</label><br>
+<label><input type="radio" name="q21" value="2"> La llegada de un cliente que cambia el estado del sistema</label><br>
+<label><input type="radio" name="q21" value="3"> Un sistema que nunca cambia</label><br>
+
+<div id="result21"></div>
+</div>
+
+<button type="button" onclick="corregir()">Corregir</button>
+
+</form>
+</div>
+
+<script>
+function corregir() {
+
+    let correctas = 0;
+
+    let q1 = getChecked("q1");
+    if(compare(q1, ["1","3","4"])) {
+        document.getElementById("result1").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result1").innerHTML = "✘ Incorrecto";
+    }
+
+    let q2 = getChecked("q2");
+    if(compare(q2, ["1","2","3"])) {
+        document.getElementById("result2").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result2").innerHTML = "✘ Incorrecto";
+    }
+
+    let q3 = getChecked("q3");
+    if(compare(q3, ["1","2","4"])) {
+        document.getElementById("result3").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result3").innerHTML = "✘ Incorrecto";
+    }
+
+    let q4 = getChecked("q4");
+    if(compare(q4, ["1","2","4"])) {
+        document.getElementById("result4").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result4").innerHTML = "✘ Incorrecto";
+    }
+
+    let q5 = getChecked("q5");
+    if(compare(q5, ["1","2","4"])) {
+        document.getElementById("result5").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result5").innerHTML = "✘ Incorrecto";
+    }
+
+    let q6 = getChecked("q6");
+    if(compare(q6, ["1","2","3","4"])) {
+        document.getElementById("result6").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result6").innerHTML = "✘ Incorrecto";
+    }
+
+    let q7 = getChecked("q7");
+    if(compare(q7, ["1","2","3","4","5"])) {
+        document.getElementById("result7").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result7").innerHTML = "✘ Incorrecto";
+    }
+
+    let q8 = getChecked("q8");
+    if(compare(q8, ["1","2","3","4"])) {
+        document.getElementById("result8").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result8").innerHTML = "✘ Incorrecto";
+    }
+
+    let q9 = document.querySelector('input[name="q9"]:checked');
+    if(q9 && q9.value === "2") {
+        document.getElementById("result9").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result9").innerHTML = "✘ Incorrecto";
+    }
+
+    let q10 = getChecked("q10");
+    if(compare(q10, ["1","2","3","4"])) {
+        document.getElementById("result10").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result10").innerHTML = "✘ Incorrecto";
+    }
+
+    let q11 = getChecked("q11");
+    if(compare(q11, ["1","2","3"])) {
+        document.getElementById("result11").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result11").innerHTML = "✘ Incorrecto";
+    }
+
+    let q12 = getChecked("q12");
+    if(compare(q12, ["1","2","3","4"])) {
+        document.getElementById("result12").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result12").innerHTML = "✘ Incorrecto";
+    }
+
+    let q13Values = Array.from(document.querySelectorAll('#sortable .sort-item')).map(el => el.getAttribute('data-value'));
+    let correctOrder = ["3","7","5","1","6","4","2"];
+    if(JSON.stringify(q13Values) === JSON.stringify(correctOrder)) {
+        document.getElementById("result13").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result13").innerHTML = "✘ Incorrecto. Orden correcto: Definir problema → Construir modelo → Obtener datos → Programar → Validar → Experimentar → Analizar resultados";
+    }
+
+    let q14 = getChecked("q14");
+    if(compare(q14, ["1","2","3"])) {
+        document.getElementById("result14").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result14").innerHTML = "✘ Incorrecto";
+    }
+
+    let q15 = getChecked("q15");
+    if(compare(q15, ["1","2","3","4"])) {
+        document.getElementById("result15").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result15").innerHTML = "✘ Incorrecto";
+    }
+
+    let q16 = getChecked("q16");
+    if(compare(q16, ["1","2","3"])) {
+        document.getElementById("result16").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result16").innerHTML = "✘ Incorrecto";
+    }
+
+    let q17 = getChecked("q17");
+    if(compare(q17, ["1","2","3","4"])) {
+        document.getElementById("result17").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result17").innerHTML = "✘ Incorrecto";
+    }
+
+    let q18 = getChecked("q18");
+    if(compare(q18, ["1","2","3"])) {
+        document.getElementById("result18").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result18").innerHTML = "✘ Incorrecto";
+    }
+
+    let q19 = document.querySelector('input[name="q19"]:checked');
+    if(q19 && q19.value === "2") {
+        document.getElementById("result19").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result19").innerHTML = "✘ Incorrecto";
+    }
+
+    let q20 = document.querySelector('input[name="q20"]:checked');
+    if(q20 && q20.value === "2") {
+        document.getElementById("result20").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result20").innerHTML = "✘ Incorrecto";
+    }
+
+    let q21 = document.querySelector('input[name="q21"]:checked');
+    if(q21 && q21.value === "2") {
+        document.getElementById("result21").innerHTML = "✔ Correcto";
+        correctas++;
+    } else {
+        document.getElementById("result21").innerHTML = "✘ Incorrecto";
+    }
+
+    alert("Resultado: " + correctas + " / 21");
+}
+
+function getChecked(name) {
+    return Array.from(document.querySelectorAll(`input[name=${name}]:checked`)).map(e => e.value);
+}
+
+function compare(a, b) {
+    return a.length === b.length && a.every(v => b.includes(v));
+}
+
+let dragItem = null;
+
+document.querySelectorAll('.sort-item').forEach(item => {
+    item.addEventListener('dragstart', function() {
+        dragItem = this;
+        setTimeout(() => this.style.opacity = '0.5', 0);
+    });
+
+    item.addEventListener('dragend', function() {
+        this.style.opacity = '1';
+        dragItem = null;
+        document.querySelectorAll('.sort-item').forEach(i => i.classList.remove('over'));
+    });
+
+    item.addEventListener('dragover', function(e) {
+        e.preventDefault();
+    });
+
+    item.addEventListener('dragenter', function(e) {
+        e.preventDefault();
+        this.classList.add('over');
+    });
+
+    item.addEventListener('dragleave', function() {
+        this.classList.remove('over');
+    });
+
+    item.addEventListener('drop', function() {
+        this.classList.remove('over');
+        if (dragItem && dragItem !== this) {
+            let parent = this.parentNode;
+            let items = Array.from(parent.children);
+            let dragIdx = items.indexOf(dragItem);
+            let dropIdx = items.indexOf(this);
+            if (dragIdx < dropIdx) {
+                parent.insertBefore(dragItem, this.nextSibling);
+            } else {
+                parent.insertBefore(dragItem, this);
+            }
+        }
+    });
+});
+</script>
+
+</body>
+</html>
