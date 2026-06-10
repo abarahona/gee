@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Gerenciamiento Estratégico - Unidades 5 a 8</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    padding: 20px;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  h1 {
+    text-align: center;
+    color: #1a237e;
+    margin-bottom: 6px;
+    font-size: 1.6em;
+  }
+  .subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 24px;
+    font-size: 0.95em;
+  }
+  .question {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border-left: 4px solid #1a237e;
+  }
+  .question.correct { border-left-color: #2e7d32; }
+  .question.incorrect { border-left-color: #c62828; }
+  .q-text {
+    font-weight: 600;
+    font-size: 1em;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .q-unit {
+    font-size: 0.75em;
+    color: #888;
+    font-weight: 400;
+    margin-left: 8px;
+  }
+  .options label {
+    display: block;
+    padding: 7px 10px;
+    margin: 3px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 0.95em;
+  }
+  .options label:hover { background: #e8eaf6; }
+  .options input { margin-right: 8px; }
+  .feedback {
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    display: none;
+  }
+  .correct .feedback.correct-fb { display: block; background: #e8f5e9; color: #2e7d32; }
+  .incorrect .feedback.incorrect-fb { display: block; background: #ffebee; color: #c62828; }
+  .incorrect .feedback.correct-fb { display: block; background: #fff3e0; color: #e65100; }
+  .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  .actions button {
+    padding: 10px 28px;
+    font-size: 1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+  .actions button:hover { opacity: 0.85; }
+  .btn-check { background: #1a237e; color: #fff; }
+  .btn-reset { background: #757575; color: #fff; }
+  .actions button:disabled { opacity: 0.4; cursor: default; }
+  #score {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 10px 0 20px;
+    color: #1a237e;
+  }
+  .legend { text-align: center; font-size: 0.85em; color: #888; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Gerenciamiento Estratégico</h1>
+  <p class="subtitle">Multiple Choice - Unidades 5 a 8</p>
+
+  <div class="legend">Seleccioná la opción correcta y presioná <strong>"Corregir"</strong></div>
+  <div id="score"></div>
+
+  <div id="quiz"></div>
+
+  <div class="actions">
+    <button class="btn-check" id="checkBtn">Corregir</button>
+    <button class="btn-reset" id="resetBtn">Reiniciar</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    unit: "U5",
+    q: '¿Cuáles son los dos tipos principales de ventaja competitiva según el texto?',
+    opts: ['Calidad y servicio', 'Costo más bajo y diferenciación', 'Precio y publicidad', 'Innovación y marketing'],
+    correct: 1,
+    fb: 'Costo más bajo (hacer las cosas más baratas que la competencia) y diferenciación (dar un toque personalizado que justifique un precio mayor).'
+  },
+  {
+    unit: "U5",
+    q: '¿Qué es la integración vertical?',
+    opts: [
+      'Comprar competidores para ganar cuota de mercado',
+      'Comprar proveedores o clientes/distribuidores',
+      'Subcontratar actividades no centrales',
+      'Vender divisiones de la empresa'
+    ],
+    correct: 1,
+    fb: 'La integración vertical consiste en comprar proveedores (hacia atrás) o clientes/distribuidores (hacia adelante).'
+  },
+  {
+    unit: "U5",
+    q: '¿Qué riesgo tiene la estrategia de diferenciación?',
+    opts: [
+      'Siempre reduce las ventas unitarias',
+      'La competencia puede copiar el producto y el cliente puede no valorar el diferencial',
+      'Solo funciona para empresas grandes',
+      'Aumenta los costos de producción sin excepción'
+    ],
+    correct: 1,
+    fb: 'La competencia te puede copiar, el cliente puede no ver el valor de la diferenciación, y el precio puede resultar demasiado alto.'
+  },
+  {
+    unit: "U5",
+    q: '¿Qué es la subcontratación?',
+    opts: [
+      'Comprar un competidor',
+      'Delegar actividades no centrales a especialistas externos',
+      'Fusionarse con un proveedor',
+      'Aumentar la capacidad de producción propia'
+    ],
+    correct: 1,
+    fb: 'Subcontratar es delegar actividades como contabilidad, desarrollo de software o atención al cliente a especialistas externos.'
+  },
+  {
+    unit: "U5",
+    q: '¿Cuándo conviene NO ser el primero en internet?',
+    opts: [
+      'Cuando hay gran capacidad financiera',
+      'Cuando el mercado es escéptico a nuevas tecnologías o los productos son inmaduros',
+      'Cuando los clientes son fieles',
+      'Nunca, siempre conviene ser el primero'
+    ],
+    correct: 1,
+    fb: 'Ser seguidor es más barato y conviene cuando el mercado es escéptico o los productos son inmaduros.'
+  },
+  {
+    unit: "U6",
+    q: '¿Qué es la economía de localización?',
+    opts: [
+      'Producir en el país de origen siempre',
+      'Encontrar el lugar óptimo combinando costo de producción, barreras comerciales y costo de transporte',
+      'Tener una planta en cada país',
+      'Reducir la calidad del producto para abaratar costos'
+    ],
+    correct: 1,
+    fb: 'Es encontrar el lugar perfecto donde la actividad tenga nivel óptimo combinando costo de producción, barreras comerciales y costo de transporte.'
+  },
+  {
+    unit: "U6",
+    q: '¿Qué tipo de empresa global tiene alta presión de costo y alta aceptación local?',
+    opts: ['Global', 'Internacional', 'Transnacional', 'Multidoméstica'],
+    correct: 2,
+    fb: 'La empresa transnacional enfrenta alta presión de costo y alta aceptación local. Es muy difícil de implementar.'
+  },
+  {
+    unit: "U6",
+    q: '¿Cuáles son las dos presiones conflictivas al trabajar en el ambiente global?',
+    opts: [
+      'Calidad y precio',
+      'Reducir costos y aceptación local',
+      'Innovación y tradición',
+      'Producción y marketing'
+    ],
+    correct: 1,
+    fb: 'Reducir costos (estandarización) vs. aceptación local (adaptación a gustos, leyes, infraestructura).'
+  },
+  {
+    unit: "U6",
+    q: '¿Qué es una joint venture?',
+    opts: [
+      'La venta de una empresa a otra',
+      'Una unión de empresas con partes accionarias iguales por un plazo determinado',
+      'Una estrategia de bajo costo',
+      'Un tipo de integración vertical'
+    ],
+    correct: 1,
+    fb: 'Joint venture es una unión de empresas con partes accionarias iguales o parecidas, por un plazo determinado, para desarrollar una solución específica.'
+  },
+  {
+    unit: "U6",
+    q: '¿Qué permite la curva de experiencia?',
+    opts: [
+      'Aumentar la diferenciación del producto',
+      'Disminuir constantemente el costo de producción al aumentar el volumen',
+      'Mejorar la calidad del producto',
+      'Reducir el personal de la empresa'
+    ],
+    correct: 1,
+    fb: 'La curva de experiencia es la disminución constante del costo de producción al aumentar el volumen, acelerándose al atender el mercado global desde una sola planta.'
+  },
+  {
+    unit: "U7",
+    q: 'Según el nivel gerencial, ¿cómo deberían distribuirse los objetivos a largo y corto plazo en la alta dirección?',
+    opts: [
+      '50% largo plazo / 50% corto plazo',
+      '25% largo plazo / 75% corto plazo',
+      '75% largo plazo / 25% corto plazo',
+      '100% largo plazo'
+    ],
+    correct: 2,
+    fb: 'A más alto nivel, más objetivos a largo plazo: alta dirección 75% LP / 25% CP.'
+  },
+  {
+    unit: "U7",
+    q: '¿Cuál de los siguientes NO es un tipo de gerencia sin objetivos?',
+    opts: ['Gerencia por extrapolación', 'Gerencia por crisis', 'Gerencia por objetivos', 'Gerencia por esperanza'],
+    correct: 2,
+    fb: 'Los cuatro tipos sin objetivos son: por extrapolación, por crisis, por ideas subjetivas y por esperanza.'
+  },
+  {
+    unit: "U7",
+    q: '¿Qué implica la estrategia de penetración en el mercado?',
+    opts: [
+      'Llevar productos a nuevas zonas geográficas',
+      'Aumentar la participación del producto actual con más marketing, vendedores y publicidad',
+      'Desarrollar productos nuevos',
+      'Vender una división de la empresa'
+    ],
+    correct: 1,
+    fb: 'Penetración de mercado: aumentar participación del producto actual con más esfuerzo de mercadotecnia.'
+  },
+  {
+    unit: "U7",
+    q: '¿Cuál es un ejemplo de diversificación concéntrica?',
+    opts: [
+      'Una heladería que empieza a vender postres',
+      'Una tienda de ropa que empieza a vender perfumes',
+      'Una empresa de software que empieza a vender muebles',
+      'Una fábrica que cierra una división'
+    ],
+    correct: 0,
+    fb: 'Diversificación concéntrica: adicionar productos nuevos relacionados con los actuales (heladería suma postres).'
+  },
+  {
+    unit: "U7",
+    q: '¿Qué recomienda el profesor sobre las alternativas para empresas líderes?',
+    opts: [
+      'Usar siempre la opción defensiva (fortificar)',
+      'Combinar la ofensiva y la demostración de fuerza; lo defensivo solo temporalmente',
+      'Solo mantenerse ofensivo',
+      'Ninguna, el líder no necesita estrategia'
+    ],
+    correct: 1,
+    fb: 'Recomienda combinar la opción 1 (mantenerse ofensivo) y la 3 (demostración de fuerza); la opción 2 (fortificar) solo usarla temporalmente.'
+  },
+  {
+    unit: "U7",
+    q: '¿En qué consiste la "estrategia de cosecha" para empresas débiles?',
+    opts: [
+      'Invertir más en publicidad para crecer',
+      'Comprar competidores para ganar mercado',
+      'Dejar de invertir, bajar costos de mantenimiento y maximizar el efectivo para salir',
+      'Fusionarse con una empresa más grande'
+    ],
+    correct: 2,
+    fb: 'Estrategia de cosecha: no invertir más, bajar costos de mantenimiento y publicidad, no reemplazar empleados, enfocarse en ganar la mayor cantidad de efectivo posible.'
+  },
+  {
+    unit: "U7",
+    q: '¿Cuál es la diferencia entre fusión y adquisición?',
+    opts: [
+      'No hay diferencia',
+      'Fusión es comprar un proveedor; adquisición es comprar un competidor',
+      'Adquisición: empresa grande compra una chica; Fusión: dos similares se unen formando una nueva',
+      'Adquisición es voluntaria; fusión es forzosa'
+    ],
+    correct: 2,
+    fb: 'Adquisición: empresa grande compra una más chica. Fusión: dos empresas de tamaños similares se unen para formar una nueva.'
+  },
+  {
+    unit: "U8",
+    q: '¿Cuáles son las 4 fases del modelo de estrategia personal?',
+    opts: [
+      'Planificar, ejecutar, controlar, corregir',
+      'Descubrir, diseñar, prototipar, implementar',
+      'Analizar, decidir, actuar, revisar',
+      'Soñar, planificar, ejecutar, celebrar'
+    ],
+    correct: 1,
+    fb: 'Descubrir (autoempatía), diseñar (tormenta de ideas), prototipar (probar opciones) e implementar (plan de carrera).'
+  },
+  {
+    unit: "U8",
+    q: '¿Qué componentes tiene el mapa estratégico personal, de mayor a menor nivel?',
+    opts: [
+      'Tareas → Proyectos → Objetivos → Visión → Propósito',
+      'Propósito → Visión → Objetivos → Proyectos → Tareas',
+      'Visión → Propósito → Objetivos → Tareas → Proyectos',
+      'Objetivos → Proyectos → Tareas → Visión → Propósito'
+    ],
+    correct: 1,
+    fb: 'Propósito → Visión → Objetivos → Proyectos → Tareas. Cada nivel engloba al siguiente.'
+  },
+  {
+    unit: "U8",
+    q: '¿Qué significa "pivotear" en el contexto de la estrategia personal?',
+    opts: [
+      'Renunciar al trabajo actual',
+      'Tener la capacidad rápida de cambiar y modificar el plan ante cambios de contexto',
+      'Cambiar de carrera completamente',
+      'Ignorar los resultados y seguir el plan original'
+    ],
+    correct: 1,
+    fb: 'Pivotear es tener capacidad rápida para ir cambiando y modificando el plan ante cambios de contexto, proyecto o mercado.'
+  }
+];
+
+const quiz = document.getElementById('quiz');
+const scoreDiv = document.getElementById('score');
+const checkBtn = document.getElementById('checkBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+let answered = new Array(questions.length).fill(null);
+
+function render() {
+  quiz.innerHTML = '';
+  questions.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.id = 'q-' + i;
+
+    const qText = document.createElement('div');
+    qText.className = 'q-text';
+    qText.innerHTML = `${i + 1}. ${q.q} <span class="q-unit">${q.unit}</span>`;
+    div.appendChild(qText);
+
+    const optsDiv = document.createElement('div');
+    optsDiv.className = 'options';
+    q.opts.forEach((opt, j) => {
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'q' + i;
+      input.value = j;
+      input.addEventListener('change', () => {
+        answered[i] = j;
+      });
+      label.appendChild(input);
+      label.append(opt);
+      optsDiv.appendChild(label);
+    });
+    div.appendChild(optsDiv);
+
+    const fbCorrect = document.createElement('div');
+    fbCorrect.className = 'feedback correct-fb';
+    fbCorrect.textContent = '✓ Correcto. ' + q.fb;
+    div.appendChild(fbCorrect);
+
+    const fbIncorrect = document.createElement('div');
+    fbIncorrect.className = 'feedback incorrect-fb';
+    div.appendChild(fbIncorrect);
+
+    quiz.appendChild(div);
+  });
+}
+
+function check() {
+  let correct = 0;
+  const total = questions.length;
+
+  questions.forEach((q, i) => {
+    const div = document.getElementById('q-' + i);
+    div.classList.remove('correct', 'incorrect');
+
+    const selected = answered[i];
+    const fbIncorrect = div.querySelector('.feedback.incorrect-fb');
+
+    if (selected === null) {
+      fbIncorrect.textContent = '✗ No respondiste esta pregunta.';
+      div.classList.add('incorrect');
+      return;
+    }
+
+    if (selected === q.correct) {
+      div.classList.add('correct');
+      correct++;
+    } else {
+      div.classList.add('incorrect');
+      const userAns = q.opts[selected];
+      const correctAns = q.opts[q.correct];
+      fbIncorrect.textContent = `✗ Respuesta: "${userAns}". La correcta es: "${correctAns}". ${q.fb}`;
+    }
+  });
+
+  const pct = Math.round((correct / total) * 100);
+  scoreDiv.textContent = `Resultado: ${correct}/${total} (${pct}%)`;
+  checkBtn.disabled = true;
+}
+
+function reset() {
+  answered = new Array(questions.length).fill(null);
+  document.querySelectorAll('.question').forEach(div => {
+    div.classList.remove('correct', 'incorrect');
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+  scoreDiv.textContent = '';
+  checkBtn.disabled = false;
+}
+
+render();
+
+checkBtn.addEventListener('click', check);
+resetBtn.addEventListener('click', reset);
+</script>
+</body>
+</html>
