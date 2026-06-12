@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiple Choice - SIM 2do Parcial</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    padding: 2rem;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: .5rem;
+    color: #2d3748;
+  }
+  .subtitle {
+    text-align: center;
+    color: #718096;
+    margin-bottom: 2rem;
+    font-size: .95rem;
+  }
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  .controls button {
+    padding: .6rem 1.4rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-check { background: #48bb78; color: #fff; }
+  .btn-check:hover { background: #38a169; }
+  .btn-reset { background: #e2e8f0; color: #4a5568; }
+  .btn-reset:hover { background: #cbd5e0; }
+  .score {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #2d3748;
+  }
+  .score span { color: #48bb78; }
+  .pregunta {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    border-left: 5px solid #4299e1;
+    transition: border-color .3s;
+  }
+  .pregunta.correcta { border-left-color: #48bb78; }
+  .pregunta.incorrecta { border-left-color: #f56565; }
+  .pregunta h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #2d3748;
+  }
+  .opcion {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    padding: .6rem .75rem;
+    margin-bottom: .3rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s;
+    user-select: none;
+  }
+  .opcion:hover { background: #f7fafc; }
+  .opcion input[type="checkbox"] {
+    margin-top: 3px;
+    width: 18px; height: 18px;
+    accent-color: #4299e1;
+    cursor: pointer;
+  }
+  .opcion label {
+    flex: 1;
+    cursor: pointer;
+    font-size: .95rem;
+    line-height: 1.5;
+  }
+  .opcion.correcta label { color: #276749; font-weight: 600; }
+  .opcion.incorrecta label { color: #c53030; font-weight: 600; }
+  .opcion.marcada { background: #ebf8ff; }
+  .feedback {
+    margin-top: .75rem;
+    padding: .75rem 1rem;
+    border-radius: 8px;
+    font-size: .9rem;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; }
+  .feedback.err { background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; }
+  .nro-pregunta {
+    display: inline-block;
+    background: #4299e1;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    padding: .15rem .6rem;
+    border-radius: 999px;
+    margin-bottom: .5rem;
+  }
+  @media (max-width: 600px) {
+    body { padding: 1rem; }
+    .pregunta { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 SIM — 2do Parcial</h1>
+  <p class="subtitle">Multiple choice basado en exámenes teóricos anteriores</p>
+
+  <div class="controls">
+    <button class="btn-check" onclick="corregir()">✅ Corregir</button>
+    <button class="btn-reset" onclick="reiniciar()">🔄 Reiniciar</button>
+    <div class="score">Puntaje: <span id="puntaje">0</span> / <span id="totalPreguntas">0</span></div>
+  </div>
+
+  <div id="preguntas"></div>
+</div>
+
+<script>
+const preguntas = [
+  {
+    texto: "Respecto del Error Absoluto y el Error Relativo...",
+    opciones: [
+      "El Error Absoluto aumenta cuando el valor de la variable es cercano a cero.",
+      "El Error Relativo aumenta cuando el valor de la variable es cercano a cero.",
+      "El Error Absoluto se expresa en las mismas unidades que la variable.",
+      "El Error Relativo se expresa en porcentaje.",
+      "El Error Relativo se expresa en las mismas unidades que la variable.",
+      "El Error Absoluto se expresa en porcentaje."
+    ],
+    correctas: [1, 2, 3],
+    feedbackExplicacion: "El Error Absoluto se expresa en las mismas unidades que la variable. El Error Relativo se expresa en porcentaje y aumenta cuando el valor de la variable es cercano a cero."
+  },
+  {
+    texto: "Considerando el 'Paso de integración h' de un proceso de integración numérica de un modelo continuo...",
+    opciones: [
+      "Es la medida en que avanza la variable independiente con cada iteración.",
+      "No tiene relación con la unidad de integración.",
+      "Establece en cuántas iteraciones se incrementa en 1 la unidad de integración.",
+      "Equivale a la unidad de integración.",
+      "Es la medida en que avanza la variable dependiente con cada iteración."
+    ],
+    correctas: [0, 2],
+    feedbackExplicacion: "El paso h es la medida en que avanza la variable independiente con cada iteración, y establece en cuántas iteraciones se incrementa en 1 la unidad de integración."
+  },
+  {
+    texto: "Cuando ocurre un evento 'Llegada de cliente', SIEMPRE se debe...",
+    opciones: [
+      "Generar un Fin de Atención.",
+      "Preguntar si hay clientes en la cola.",
+      "Preguntar si el servidor está disponible.",
+      "Generar inmediatamente una nueva Llegada."
+    ],
+    correctas: [2, 3],
+    feedbackExplicacion: "Al llegar un cliente, se debe generar inmediatamente una nueva llegada y preguntar si el servidor está disponible."
+  },
+  {
+    texto: "Cuando ocurre un evento 'Fin de atención', SIEMPRE se debe...",
+    opciones: [
+      "Generar inmediatamente otro evento Fin de Atención.",
+      "Preguntar si el servidor está disponible.",
+      "Preguntar si hay clientes en cola.",
+      "Preguntar si la cola está llena."
+    ],
+    correctas: [2],
+    feedbackExplicacion: "Al finalizar una atención, se debe preguntar si hay clientes en cola para atender al siguiente."
+  },
+  {
+    texto: "Cuando se dispone de un modelo que consiste en una ecuación diferencial...",
+    opciones: [
+      "Si se dispone de la solución analítica, siempre es preferible a una integración numérica.",
+      "Si se dispone de la solución analítica, siempre es conveniente realizar una integración numérica con métodos de 4to orden.",
+      "Si NO se dispone de la solución analítica, es conveniente realizar una integración numérica con métodos de 4to orden.",
+      "Si se dispone de la solución analítica, hay que evaluar si es conveniente realizar una integración numérica.",
+      "Si NO se dispone de la solución analítica, una integración numérica no es de gran utilidad."
+    ],
+    correctas: [0, 2],
+    feedbackExplicacion: "Si hay solución analítica, siempre es preferible. Si no, es conveniente usar integración numérica con métodos de 4to orden (Runge-Kutta)."
+  },
+  {
+    texto: "¿Cómo se gestionan dos eventos que se producen exactamente en el mismo momento?",
+    opciones: [
+      "Se elige uno de ellos y se le regenera el momento de ejecución para que no coincidan.",
+      "Se aumenta la cantidad de decimales hasta encontrar alguna diferencia entre ambos tiempos.",
+      "Se ejecuta uno primero, realizando los cambios consecuentes en el sistema, y luego se ejecuta el otro, sin avanzar el reloj.",
+      "Se ejecutan simultáneamente, realizando todos los cambios consecuentes en el sistema.",
+      "Se ejecuta uno primero y luego el otro, avanzando el reloj lo mínimo posible."
+    ],
+    correctas: [2],
+    feedbackExplicacion: "Se ejecuta uno primero con sus cambios, luego el otro, sin avanzar el reloj entre ambos."
+  },
+  {
+    texto: "¿Cuál es la incidencia del tamaño del paso de integración (h) en los métodos numéricos?",
+    opciones: [
+      "A mayor h, mayor exactitud y menor rapidez.",
+      "A menor h, menor exactitud y mayor rapidez.",
+      "A mayor h, menor exactitud y mayor rapidez.",
+      "El tamaño de h no afecta ni la exactitud ni la rapidez.",
+      "A menor h, mayor exactitud y menor rapidez."
+    ],
+    correctas: [2, 4],
+    feedbackExplicacion: "Un h grande da menos exactitud pero más rapidez. Un h pequeño da mayor exactitud pero requiere más pasos (menor rapidez)."
+  },
+  {
+    texto: "Mencione tres medidas de desempeño en una simulación de Sistemas de Colas.",
+    opciones: [
+      "Tiempo promedio de permanencia en cola.",
+      "Tiempo promedio de permanencia en el sistema.",
+      "Cantidad de servidores disponibles.",
+      "Porcentaje de clientes no atendidos.",
+      "Longitud máxima de la cola.",
+      "Tasa de llegada de clientes."
+    ],
+    correctas: [0, 1, 3],
+    feedbackExplicacion: "Las medidas son: Tiempo promedio en cola, Tiempo promedio en el sistema, y Porcentaje de clientes no atendidos."
+  },
+  {
+    texto: "Cuando se compara el método de Euler con Runge-Kutta de 4to orden...",
+    opciones: [
+      "Euler es más exacto que Runge-Kutta para el mismo h.",
+      "Runge-Kutta de 4to orden es más exacto que Euler para el mismo h.",
+      "Euler requiere menos evaluaciones por paso que Runge-Kutta.",
+      "Runge-Kutta de 4to orden requiere 4 evaluaciones por paso.",
+      "Ambos métodos tienen la misma exactitud."
+    ],
+    correctas: [1, 2, 3],
+    feedbackExplicacion: "Runge-Kutta de 4to orden es más exacto que Euler para el mismo h, pero requiere 4 evaluaciones por paso (Euler solo 1)."
+  },
+  {
+    texto: "¿Es preferible calcular el error absoluto por sobre el error relativo?",
+    opciones: [
+      "Sí, el error absoluto es más importante.",
+      "No, el error relativo es más importante porque indica la calidad de la medida.",
+      "Ambos son igualmente importantes.",
+      "Depende del contexto, pero el error relativo suele ser más relevante.",
+      "Ninguno de los dos es relevante."
+    ],
+    correctas: [1, 3],
+    feedbackExplicacion: "El error relativo es más importante porque indica la calidad de la medida. Una integración numérica es buena si el error relativo no supera el 2%."
+  },
+  {
+    texto: "El 'abandono del sistema' ocurre cuando...",
+    opciones: [
+      "El servidor se vuelve inactivo.",
+      "El servidor finaliza su jornada laboral.",
+      "Se produce una interrupción del sistema de generación de números.",
+      "Un cliente decide no esperar más y se retira.",
+      "Se alcanza la capacidad máxima del sistema."
+    ],
+    correctas: [3, 4],
+    feedbackExplicacion: "El abandono del sistema ocurre cuando un cliente decide no esperar más en la cola y se retira, o cuando se alcanza la capacidad máxima del sistema y no se admiten más clientes."
+  }
+];
+
+function renderPreguntas() {
+  const container = document.getElementById('preguntas');
+  container.innerHTML = '';
+  preguntas.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'pregunta';
+    div.id = 'p' + i;
+    div.innerHTML = '<div class="nro-pregunta">Pregunta ' + (i + 1) + '</div>';
+    div.innerHTML += '<h3>' + p.texto + '</h3>';
+    p.opciones.forEach((o, j) => {
+      const opDiv = document.createElement('div');
+      opDiv.className = 'opcion';
+      opDiv.id = 'p' + i + 'o' + j;
+      opDiv.innerHTML = '<input type="checkbox" id="c' + i + '_' + j + '" onchange="marcar(' + i + ',' + j + ')">' +
+        '<label for="c' + i + '_' + j + '">' + o + '</label>';
+      div.appendChild(opDiv);
+    });
+    const fb = document.createElement('div');
+    fb.className = 'feedback';
+    fb.id = 'fb' + i;
+    fb.innerHTML = p.feedbackExplicacion;
+    div.appendChild(fb);
+    container.appendChild(div);
+  });
+  document.getElementById('totalPreguntas').textContent = preguntas.length;
+}
+
+let seleccionadas = preguntas.map(() => new Set());
+
+function marcar(p, o) {
+  const chk = document.getElementById('c' + p + '_' + o);
+  if (chk.checked) seleccionadas[p].add(o);
+  else seleccionadas[p].delete(o);
+  const op = document.getElementById('p' + p + 'o' + o);
+  op.classList.toggle('marcada', chk.checked);
+}
+
+function corregir() {
+  let aciertos = 0;
+  preguntas.forEach((p, i) => {
+    const div = document.getElementById('p' + i);
+    div.classList.remove('correcta', 'incorrecta');
+    let bien = true;
+    p.opciones.forEach((_, j) => {
+      const chk = document.getElementById('c' + i + '_' + j);
+      const op = document.getElementById('p' + i + 'o' + j);
+      op.classList.remove('correcta', 'incorrecta');
+      const debeEstar = p.correctas.includes(j);
+      const esta = seleccionadas[i].has(j);
+      if (debeEstar && esta) {
+        op.classList.add('correcta');
+      } else if (!debeEstar && esta) {
+        op.classList.add('incorrecta');
+        bien = false;
+      } else if (debeEstar && !esta) {
+        op.classList.add('incorrecta');
+        bien = false;
+      }
+    });
+    const fb = document.getElementById('fb' + i);
+    fb.classList.add('show');
+    if (bien) {
+      div.classList.add('correcta');
+      fb.className = 'feedback show ok';
+      aciertos++;
+    } else {
+      div.classList.add('incorrecta');
+      fb.className = 'feedback show err';
+    }
+  });
+  document.getElementById('puntaje').textContent = aciertos;
+}
+
+function reiniciar() {
+  seleccionadas = preguntas.map(() => new Set());
+  preguntas.forEach((p, i) => {
+    const div = document.getElementById('p' + i);
+    div.classList.remove('correcta', 'incorrecta');
+    p.opciones.forEach((_, j) => {
+      const chk = document.getElementById('c' + i + '_' + j);
+      chk.checked = false;
+      const op = document.getElementById('p' + i + 'o' + j);
+      op.classList.remove('correcta', 'incorrecta', 'marcada');
+    });
+    const fb = document.getElementById('fb' + i);
+    fb.classList.remove('show');
+    fb.className = 'feedback';
+  });
+  document.getElementById('puntaje').textContent = '0';
+}
+
+renderPreguntas();
+</script>
+</body>
+</html>
